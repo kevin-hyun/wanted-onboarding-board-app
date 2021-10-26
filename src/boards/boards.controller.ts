@@ -7,7 +7,7 @@ import {
   Logger,
   Param,
   ParseIntPipe,
-  Patch,
+  Put,
   Post,
   Query,
   UseGuards,
@@ -23,8 +23,11 @@ import { BoardsService } from './boards.service';
 import { CreateBoardDto } from './dto/create-board.dto';
 import { PaginationDto } from './dto/pagination.dto';
 import { BoardStatusValidationPipe } from './pipe/board-status-validation.pipe';
+import { ApiBearerAuth } from '@nestjs/swagger';
+import { UpdateBoardDto } from './dto/update-board.dto';
 
 @Controller('boards')
+@ApiBearerAuth('accesskey')
 @UseGuards(AuthGuard())
 export class BoardsController {
   private logger = new Logger('Boards');
@@ -66,17 +69,17 @@ export class BoardsController {
 
   @Delete('/:id')
   deleteBoard(
-    @Param('id', ParseIntPipe) id,
+    @Param('id', ParseIntPipe) id: number,
     @GetUser() user: User,
   ): Promise<void> {
     return this.boardsService.deleteBoard(id, user);
   }
 
-  @Patch('/:id/status')
+  @Put('/:id')
   updateBoardStatus(
     @Param('id', ParseIntPipe) id: number,
-    @Body('status', BoardStatusValidationPipe) status: BoardStatus,
+    @Body() updateBoardDto: UpdateBoardDto,
   ) {
-    return this.boardsService.updateBoardStatus(id, status);
+    return this.boardsService.updateBoardStatus(id, updateBoardDto);
   }
 }

@@ -1,3 +1,4 @@
+import { UpdateBoardDto } from './dto/update-board.dto';
 import { PaginatedBoardsResultDto } from './dto/PaginationBoardsResult.dto';
 import { PaginationDto } from './dto/pagination.dto';
 import { Injectable, NotFoundException } from '@nestjs/common';
@@ -61,12 +62,20 @@ export class BoardsService {
     }
   }
 
-  async updateBoardStatus(id: number, status: BoardStatus): Promise<Board> {
-    const board = await this.getBoardById(id);
+  async updateBoardStatus(
+    id: number,
+    updateBoardDto: UpdateBoardDto,
+  ): Promise<Board> {
+    const { title, description, status } = updateBoardDto;
+    const boardData = {
+      id,
+      title,
+      description,
+      status,
+    };
+    console.log(boardData);
+    await this.boardRepository.save(boardData);
 
-    board.status = status;
-    await this.boardRepository.save(board);
-
-    return board;
+    return this.getBoardById(id);
   }
 }
