@@ -23,11 +23,12 @@ import { BoardsService } from './boards.service';
 import { CreateBoardDto } from './dto/create-board.dto';
 import { PaginationDto } from './dto/pagination.dto';
 import { BoardStatusValidationPipe } from './pipe/board-status-validation.pipe';
-import { ApiBearerAuth } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags, ApiOperation } from '@nestjs/swagger';
 import { UpdateBoardDto } from './dto/update-board.dto';
 
 @Controller('boards')
 @ApiBearerAuth('accesskey')
+@ApiTags('게시판 CRUD API')
 @UseGuards(AuthGuard())
 export class BoardsController {
   private logger = new Logger('Boards');
@@ -40,6 +41,10 @@ export class BoardsController {
   //   }
 
   @Get()
+  @ApiOperation({
+    summary: '모든 게시물 조회',
+    description: '로그인한 유저의 모든 게시글을 조회한다',
+  })
   getAllBoard(
     @GetUser() user: User,
     @Query() paginationDto: PaginationDto,
@@ -52,6 +57,10 @@ export class BoardsController {
   }
 
   @Post()
+  @ApiOperation({
+    summary: '게시글 작성',
+    description: 'body에 담긴 정보를 바탕으로 게시글을 작성한다',
+  })
   @UsePipes(ValidationPipe)
   createBoard(
     @Body() createBoardDto: CreateBoardDto,
@@ -63,11 +72,19 @@ export class BoardsController {
   }
 
   @Get('/:id')
+  @ApiOperation({
+    summary: '한 게시글 조회',
+    description: '게시글 id로 특정 게시글을 조회한다',
+  })
   getBoardById(@Param('id') id: number): Promise<Board> {
     return this.boardsService.getBoardById(id);
   }
 
   @Delete('/:id')
+  @ApiOperation({
+    summary: '게시글 삭제',
+    description: '게시글 id로 특정 게시글을 삭제한다',
+  })
   deleteBoard(
     @Param('id', ParseIntPipe) id: number,
     @GetUser() user: User,
@@ -76,6 +93,10 @@ export class BoardsController {
   }
 
   @Put('/:id')
+  @ApiOperation({
+    summary: '게시글 변경',
+    description: 'body에 담긴 정보를 바탕으로 게시글을 변경한다',
+  })
   updateBoardStatus(
     @Param('id', ParseIntPipe) id: number,
     @Body() updateBoardDto: UpdateBoardDto,
