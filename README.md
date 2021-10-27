@@ -51,7 +51,7 @@ $ npm run start:prod
 ## ENDPOINT && API Documentation 
 
 - Swagger API Documentation 이용
-- http://localhost:3000/swagger/api/ 
+- Nest서버가 켜진 상태에서 http://localhost:3000/swagger/api/  접속시 테스트 가능 
 
   ![Screen Shot 2021-10-27 at 2 36 49 AM](https://user-images.githubusercontent.com/78840341/138978188-3a3013ca-d16e-4ca6-a697-63d4138045ef.png)
 
