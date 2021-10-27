@@ -50,6 +50,9 @@ $ npm run start:prod
 
 ## ENDPOINT && API Documentation 
 
+- Swagger API Documentation 이용
+- http://localhost:3000/swagger/api/ 
+
   ![Screen Shot 2021-10-27 at 2 36 49 AM](https://user-images.githubusercontent.com/78840341/138978188-3a3013ca-d16e-4ca6-a697-63d4138045ef.png)
 
 
